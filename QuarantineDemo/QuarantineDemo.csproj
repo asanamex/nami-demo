@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Nami.Demo.QuarantineDemo</RootNamespace>
+    <AssemblyName>QuarantineDemo</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Nami.Sdk">
+      <HintPath>..\lib\Nami.Sdk.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
