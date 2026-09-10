@@ -50,12 +50,15 @@ public sealed class FpsOverlayPlugin : NamiPlugin
         }
     }
 
+    // NEVER read Camera.main (or any singular FindObjectOfType wrapper) through Tide:
+    // Unity aborts the process (0xe0000001) when it runs outside managed game code.
+    // GameClass.FindObject() uses FindObjectsOfType + element 0, which returns cleanly.
     private static string CameraSummary()
     {
         try
         {
             var cameraClass = GameClass.Resolve("UnityEngine.CoreModule", "UnityEngine", "Camera");
-            using var camera = cameraClass.GetStaticObject("main");
+            using var camera = cameraClass.FindObject();
             if (camera is null)
                 return "camera=(none)";
             string name = camera.GetString("name") ?? "(unnamed)";
