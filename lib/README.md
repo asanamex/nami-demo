@@ -9,7 +9,7 @@ with no submodule and no package restore beyond the .NET SDK.
   `Nami.Sdk` does not contain it. Referenced by SlowMo and FpsOverlay only
   (mirrors `samples/TideProbe`, which references both projects).
 
-Source: built Release from the Nami repo at version **1.0.2**
+Source: built Release from the Nami repo at version **1.0.3**
 (`src/Nami.Sdk`, `src/Nami.Tide`; `dotnet build -c Release`).
 
 Upgrade path: when `Nami.Sdk` / `Nami.Tide` are published on NuGet, delete this folder
