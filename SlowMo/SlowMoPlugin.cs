@@ -25,18 +25,11 @@ public sealed class SlowMoPlugin : NamiPlugin
         int key = Context.Config.GetInt("toggleKey", DefaultToggleKey);
         double factor = Context.Config.GetDouble("factor", DefaultFactor);
         Context.Log.Info($"SlowMo loaded: press key {key} to toggle timeScale 1.0/{factor}. Tide available: {Tide.IsAvailable}");
-        if (Tide.IsAvailable && _time is not null)
-        {
-            try
-            {
-                float scale = _time.GetStaticFloat("timeScale");
-                Context.Log.Info($"SlowMo current timeScale={scale}");
-            }
-            catch (Exception ex)
-            {
-                Context.Log.Warn($"SlowMo timeScale read failed: {ex.Message}");
-            }
-        }
+        // NOTE: no Tide calls here by design. At OnLoad the game is still in early
+        // boot (pre-window): Unity engine state such as Time is not initialized yet,
+        // and invoking the Time.timeScale getter this early AV-crashes UnityPlayer.dll
+        // inside mono_runtime_invoke (native fault - uncatchable from managed code).
+        // First Tide contact happens in OnUpdate once the engine is up.
     }
 
     public override void OnUpdate()
