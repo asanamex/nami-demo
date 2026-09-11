@@ -2,7 +2,7 @@
 
 Four tiny user-facing demo mods for Nami 1.0.2. Each mod is one `.cs` file plus its
 csproj. All four build standalone from a zip download: `lib/` holds the prebuilt
-`Nami.Sdk.dll` / `Nami.Tide.dll` (no git submodules, no NuGet yet — see
+`Nami.Sdk.dll` / `Nami.Tide.dll` (no git submodules, no NuGet yet; see
 `lib/README.md`).
 
 | Mod | Id | Needs Tide | What it does |
@@ -58,7 +58,7 @@ Config sections are snapshotted at boot: editing `nami.json` applies at the next
 game start. Editing a mod's source and rebuilding applies via hot reload with no
 restart (see SlowMo below).
 
-## SlowMo — the 30-second demo
+## SlowMo: the 30-second demo
 
 Press F8 in-game to toggle slow motion. `toggleKey` is a Unity `KeyCode` int
 (F8 = 289, F1 = 282 … F12 = 293). `factor` is the slowed `timeScale`.
@@ -67,7 +67,7 @@ Input path: `UnityEngine.Input.GetKeyDown(KeyCode)` polled once per tick through
 Tide (`UnityEngine.InputLegacyModule`, falling back to `UnityEngine.CoreModule`
 on older Unity). One Tide round trip per tick; failures log once and input polling
 stops erroring silently afterwards. Games using only the new Input System package
-may not answer legacy `Input` — the mod then logs the Tide error and does nothing.
+may not answer legacy `Input`. The mod then logs the Tide error and does nothing.
 
 Success looks like (in `nami.log`):
 
@@ -84,7 +84,7 @@ and copy `SlowMo/bin/Release/net10.0/SlowMo.dll` over `<game>/nami/mods/SlowMo.d
 Nami hot-reloads without restarting the game (`Reloaded 'demo.nami.slowmo' ...`
 in the log); the next F8 press uses the new factor.
 
-## FpsOverlay — FPS + position readout
+## FpsOverlay: FPS + position readout
 
 Logs one line per `intervalSeconds` (default 5): mod-tick FPS (equals game FPS;
 `OnUpdate` runs per frame), `Camera.main` name, and camera position.
@@ -112,7 +112,7 @@ Success looks like:
 Without Tide (`enableMonoBridge` off / outside a game): `FpsOverlay: 60 fps |
 no Tide, game values unavailable (tick 301)`.
 
-## SkipSplash — Wave prefix-skip
+## SkipSplash: Wave prefix-skip
 
 Registers a Wave prefix (`Context.Hooks.PatchPrefix`, slot `skip-splash`) that
 returns `false` to skip the target method body while `skip` is true. The default
@@ -123,7 +123,7 @@ code involved.
 Wave patches Nami's own .NET runtime, never game Mono. To point the demo at a
 real method: set `className`/`methodName` to a CoreCLR-visible static method
 with a compatible shape (parameterless `Func<bool>` prefix fits parameterless
-targets), rebuild to trigger hot reload — the new generation re-registers the
+targets), rebuild to trigger hot reload. The new generation re-registers the
 slot. Wave refuses methods it cannot detour safely (tiny/indecodable prologues)
 with a `HookException`, which the mod logs instead of crashing.
 
@@ -136,7 +136,7 @@ Success looks like (defaults):
 
 With `"skip": false` (after restart): `SkipSplash: splash played (plays=1)`.
 
-## QuarantineDemo — quarantine proof
+## QuarantineDemo: quarantine proof
 
 Throws `InvalidOperationException` every `throwEveryNthFrame`th frame (default
 3). Default Nami config quarantines after 5 consecutive `OnUpdate` throws, so
@@ -164,4 +164,4 @@ after watching it happen; there is nothing else to configure.
   when the game is not running).
 - `nami doctor <gameDir>` sanity-checks an install (root, mods, exe, payload state).
 - Tide mods log `Tide available: False` outside a game or without
-  `"enableMonoBridge": true` — SlowMo then idles, FpsOverlay reports FPS only.
+  `"enableMonoBridge": true`. SlowMo then idles, FpsOverlay reports FPS only.
